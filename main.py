@@ -1,5 +1,5 @@
 import roombaApi as roomba
-from armageddon import Armageddon 
+from missileApi import MissileApi 
 import threading
 import time
 
@@ -14,7 +14,7 @@ def asyncTargetDetected():
 fireThread = threading.Thread(target=fire,args=(),kwargs={})
 targetedThread = threading.Thread(target=asyncTargetDetected,args=(),kwargs={})
 
-launcher = Armageddon()
+launcher = MissileApi()
 roomba.clean()
 time.sleep(5)
 roomba.initialize()
