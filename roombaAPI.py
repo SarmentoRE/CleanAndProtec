@@ -176,7 +176,7 @@ def targetDetected():
     s.write(ints2str([139, 4, 255, 255]))
     playDeathMarch()
 
-#radius -1 cw spin, 1 ccw spin, 0 straigt
+#radius -1 cw spin, 1 ccw spin,  32767 straight
 #velocity (-500 , 500 mm/s)
 #radius (-2000 , 2000 mm)
 def move(velocity, radius):
