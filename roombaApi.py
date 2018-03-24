@@ -51,9 +51,10 @@ def ints2str(lst):
         stri = stri + str(chr(i))
     return stri
 
- # do some initialization magic
-s.write(ints2str([128]))
-s.write(ints2str([132]))
+def initialize():
+    # do some initialization magic
+    s.write(ints2str([128]))
+    s.write(ints2str([131]))
 
 def playDeathMarch():
     # define silence
@@ -166,9 +167,6 @@ def playDeathMarch():
 def clean():
     s.write(ints2str([135]))
 
-def shutdown():
-    s.write(ints2str([133]))
-
 def targetDetected():
     #stops cleaning
     s.write(ints2str([144, 0, 0, 0]))
@@ -178,12 +176,13 @@ def targetDetected():
     s.write(ints2str([139, 4, 255, 255]))
     playDeathMarch()
 
-#radius -1 cw spin, 1 ccw spin, 0 straigt
+#radius -1 cw spin, 1 ccw spin,  32767 straight
 #velocity (-500 , 500 mm/s)
 #radius (-2000 , 2000 mm)
 def move(velocity, radius):
     v = numberToCode(velocity)
     r = numberToCode(radius)
     s.write(ints2str([137, v[0], v[1], r[0], r[1]]))
+    
 
 
