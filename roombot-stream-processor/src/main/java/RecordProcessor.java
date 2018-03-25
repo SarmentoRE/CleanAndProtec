@@ -131,6 +131,7 @@ public class RecordProcessor implements IRecordProcessor {
                 Double right = (left + (Double.parseDouble(String.valueOf(boundingBox.get("Width"))) * 1080));
                 Double middle = ((left + right) / 2);
                 System.out.println("left:\t" + left + "\tright:\t" + right + "\tmiddle:\t" + middle);
+		Process p =Runtime.getRuntime().exec("sudo python /home/pi/CleanAndProtec/fire.py "+middle);
             }
 
         } catch (NumberFormatException e) {
