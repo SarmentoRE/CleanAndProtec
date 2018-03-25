@@ -12,6 +12,9 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.util.List;
 
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -126,31 +129,34 @@ public class RecordProcessor implements IRecordProcessor {
 
             JSONObject jsonObject = new JSONObject(data);
             JSONObject faceSearchResponses = jsonObject.getJSONArray("FaceSearchResponse").getJSONObject(0);
+	    List<Object> matchedFaces = faceSearchResponses.getJSONArray("MatchedFaces").toList();
             if (faceSearchResponses != null) {
                 System.out.println("WE FOUND A FACE!!!!!!");
 //                System.out.println(data);
 
-                JSONObject boundingBox = faceSearchResponses.getJSONObject("DetectedFace").getJSONObject("BoundingBox");
-                System.out.println(boundingBox);
-                Double left = Double.parseDouble(String.valueOf(boundingBox.get("Left"))) * 1080;
-                Double right = (left + (Double.parseDouble(String.valueOf(boundingBox.get("Width"))) * 1080));
-                Double middle = ((left + right) / 2);
-                System.out.println("left:\t" + left + "\tright:\t" + right + "\tmiddle:\t" + middle);
-                if (lastFired == 0) {
-			// First Firing
-                    	lastFired = System.currentTimeMillis();
-			Process p = Runtime.getRuntime().exec("sudo python /home/pi/CleanAndProtec/fire.py");
+		if(matchedFaces.size() > 0){
+			System.out.println("We found a face, but it was a friend");
+			System.out.println(matchedFaces);
+		} else {
+                	JSONObject boundingBox = faceSearchResponses.getJSONObject("DetectedFace").getJSONObject("BoundingBox");
+                	System.out.println(boundingBox);
+                	Double left = Double.parseDouble(String.valueOf(boundingBox.get("Left"))) * 1080;
+                	Double right = (left + (Double.parseDouble(String.valueOf(boundingBox.get("Width"))) * 1080));
+                	Double middle = ((left + right) / 2);
+                	System.out.println("left:\t" + left + "\tright:\t" + right + "\tmiddle:\t" + middle);
+                	if (lastFired == 0) {
+				// First Firing
+                    		lastFired = System.currentTimeMillis();
+				Process proc = Runtime.getRuntime().exec("sudo python /home/pi/CleanAndProtec/fire.py");
+                	} else {
+                    		if ((System.currentTimeMillis() - lastFired) > 5000) {
+                   	    		System.out.println("lets fire again");
+                        		lastFired = System.currentTimeMillis();
+					Process proc = Runtime.getRuntime().exec("sudo python /home/pi/CleanAndProtec/fire.py");
+                	    	}
+                	}
         		Files.write(Paths.get("/home/pi/CleanAndProtec/middle.txt"), (middle+"").getBytes());
-                } else {
-                    	if ((System.currentTimeMillis() - lastFired) > 5000) {
-                    	    	System.out.println("lets fire again");
-                        	System.out.println("firing here");
-                        	lastFired = System.currentTimeMillis();
-			
-				Process p = Runtime.getRuntime().exec("sudo python /home/pi/CleanAndProtec/fire.py");
-        			Files.write(Paths.get("/home/pi/CleanAndProtec/middle.txt"), (middle+"").getBytes());
-                    }
-                }
+		}
             }
 
         } catch (NumberFormatException e) {
