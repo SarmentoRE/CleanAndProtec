@@ -11,14 +11,13 @@ def fire():
 def asyncTargetDetected():
     roomba.targetDetected()
 
-fireThread = threading.Thread(target=fire,args=(),kwargs={})
+launcher = MissileApi()
+fireThread = threading.Thread(target=launcher.fire,args=(),kwargs={})
 targetedThread = threading.Thread(target=asyncTargetDetected,args=(),kwargs={})
 
-launcher = MissileApi()
 roomba.clean()
 time.sleep(5)
 roomba.initialize()
-#roomba.targetDetected()
 targetedThread.start()
 fireThread.start()
 

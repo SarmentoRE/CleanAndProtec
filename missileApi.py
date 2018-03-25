@@ -44,5 +44,6 @@ class MissileApi(object):
 
     def fire(self):
         self.send_cmd(self.FIRE)
-        time.sleep(1)
-        self.send_cmd(self.STOP)
+        time.sleep(5)
+        self.send_move(self.DOWN,1000)
+        self.send_move(self.UP,1000)
