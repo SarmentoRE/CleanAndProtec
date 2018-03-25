@@ -1,1 +1,3 @@
 *.pyc
+roombot-stream-processor/target/
+*.class

@@ -167,7 +167,7 @@ def playDeathMarch():
 def clean():
     s.write(ints2str([135]))
 
-def targetDetected():
+def targetDetected(x):
     #stops cleaning
     s.write(ints2str([144, 0, 0, 0]))
     #stops moving
@@ -175,6 +175,7 @@ def targetDetected():
     #angry leds
     s.write(ints2str([139, 4, 255, 255]))
     playDeathMarch()
+    MovetoTarget(x)
 
 #radius -1 cw spin, 1 ccw spin,  32767 straight
 #velocity (-500 , 500 mm/s)
@@ -184,5 +185,12 @@ def move(velocity, radius):
     r = numberToCode(radius)
     s.write(ints2str([137, v[0], v[1], r[0], r[1]]))
     
+def MoveToTarget(x):
+    direction = 40
+    if(x > 540):
+        direction *= -1
+    move(direction, 1)
+    sleep(abs((x/27)-20) * 115/3)
+    move(0,0)
 
 
