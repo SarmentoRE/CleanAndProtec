@@ -165,6 +165,7 @@ def playDeathMarch():
     #time.sleep(MEASURE_TIME*1.76)
 
 def clean():
+    s.write(ints2str([139, 4, 0, 100]))
     s.write(ints2str([135]))
 
 def targetDetected(x):
