@@ -1,6 +1,7 @@
 import roombaApi as roomba
 from missileApi import MissileApi 
 import threading
+import sys
 
 
 def asyncTargetDetected(middle):
@@ -8,7 +9,7 @@ def asyncTargetDetected(middle):
 
 launcher = MissileApi()
 fireThread = threading.Thread(target=launcher.fire,args=(),kwargs={})
-targetedThread = threading.Thread(target=asyncTargetDetected,args=(sys.argv[1]),kwargs={})
+targetedThread = threading.Thread(target=asyncTargetDetected,args=(),kwargs={'middle': sys.argv[1]})
 
 roomba.initialize()
 targetedThread.start()

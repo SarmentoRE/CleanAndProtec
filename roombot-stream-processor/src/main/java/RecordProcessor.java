@@ -12,6 +12,9 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.util.List;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 public class RecordProcessor implements IRecordProcessor {
     private String kinesisShardId;
     // Backoff and retry settings
@@ -131,7 +134,8 @@ public class RecordProcessor implements IRecordProcessor {
                 Double right = (left + (Double.parseDouble(String.valueOf(boundingBox.get("Width"))) * 1080));
                 Double middle = ((left + right) / 2);
                 System.out.println("left:\t" + left + "\tright:\t" + right + "\tmiddle:\t" + middle);
-		Process p =Runtime.getRuntime().exec("sudo python /home/pi/CleanAndProtec/fire.py "+middle);
+		Process p = Runtime.getRuntime().exec("sudo python /home/pi/CleanAndProtec/fire.py");
+        	Files.write(Paths.get("/home/pi/CleanAndProtec/middle.txt"), (middle+"").getBytes());
             }
 
         } catch (NumberFormatException e) {

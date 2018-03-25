@@ -143,26 +143,26 @@ def playDeathMarch():
     s.write(ints2str([141, 0]))
     time.sleep(MEASURE_TIME*2.01)
 
-    s.write(ints2str([141, 1]))
-    time.sleep(MEASURE_TIME*2.01)
+   # s.write(ints2str([141, 1]))
+    #time.sleep(MEASURE_TIME*2.01)
 
-    s.write(ints2str([141, 2]))
-    time.sleep(MEASURE_TIME*1.26)
+    #s.write(ints2str([141, 2]))
+    #time.sleep(MEASURE_TIME*1.26)
 
-    s.write(ints2str([141, 3]))
-    time.sleep(MEASURE_TIME*1.01)
+    #s.write(ints2str([141, 3]))
+    #time.sleep(MEASURE_TIME*1.01)
 
-    s.write(ints2str([141, 4]))
-    time.sleep(MEASURE_TIME*1.76)
+    #s.write(ints2str([141, 4]))
+    #time.sleep(MEASURE_TIME*1.76)
 
-    s.write(ints2str([141, 2]))
-    time.sleep(MEASURE_TIME*1.26)
+    #s.write(ints2str([141, 2]))
+    #time.sleep(MEASURE_TIME*1.26)
 
-    s.write(ints2str([141, 3]))
-    time.sleep(MEASURE_TIME*1.01)
+    #s.write(ints2str([141, 3]))
+    #time.sleep(MEASURE_TIME*1.01)
 
-    s.write(ints2str([141, 5]))
-    time.sleep(MEASURE_TIME*1.76)
+    #s.write(ints2str([141, 5]))
+    #time.sleep(MEASURE_TIME*1.76)
 
 def clean():
     s.write(ints2str([135]))
@@ -175,7 +175,6 @@ def targetDetected(x):
     #angry leds
     s.write(ints2str([139, 4, 255, 255]))
     playDeathMarch()
-    MovetoTarget(x)
 
 #radius -1 cw spin, 1 ccw spin,  32767 straight
 #velocity (-500 , 500 mm/s)
@@ -188,9 +187,12 @@ def move(velocity, radius):
 def MoveToTarget(x):
     direction = 40
     if(x > 540):
-        direction *= -1
+        direction *=-1
     move(direction, 1)
-    sleep(abs((x/27)-20) * 115/3)
+    t = float(abs(float(float(x/27.0)-20.0)) * float(23.0/600.0))
+    print(t)
+    #time.sleep(abs((x/27)-20) * (23/600))
+    time.sleep(t)
     move(0,0)
 
 
