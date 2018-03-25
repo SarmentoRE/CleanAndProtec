@@ -176,6 +176,16 @@ def targetDetected():
     s.write(ints2str([139, 4, 255, 255]))
     playDeathMarch()
 
+def recordData():
+    while(true)
+        try:
+            print("Sensor? %d", s.read())
+        except:
+            pass
+
+def readSensors():
+    s.write(ints2str([148, 2, 39, 40]))
+
 #radius -1 cw spin, 1 ccw spin,  32767 straight
 #velocity (-500 , 500 mm/s)
 #radius (-2000 , 2000 mm)

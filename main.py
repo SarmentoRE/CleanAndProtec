@@ -4,19 +4,16 @@ import threading
 import time
 
 
-def fire():
-    time.sleep(1)
-    launcher.send_cmd(launcher.FIRE)
-
 def asyncTargetDetected():
     roomba.targetDetected()
-
-fireThread = threading.Thread(target=fire,args=(),kwargs={})
-targetedThread = threading.Thread(target=asyncTargetDetected,args=(),kwargs={})
+#    pass
 
 launcher = MissileApi()
+fireThread = threading.Thread(target=launcher.fire,args=(),kwargs={})
+targetedThread = threading.Thread(target=asyncTargetDetected,args=(),kwargs={})
+
 roomba.clean()
-time.sleep(5)
+time.sleep(10)
 roomba.initialize()
 #roomba.targetDetected()
 targetedThread.start()

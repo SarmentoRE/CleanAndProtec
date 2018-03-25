@@ -13,8 +13,7 @@ class MissileApi(object):
     LEFT = 0x04
     RIGHT = 0x08
     FIRE = 0x10
-    #STOP = 0x20
-    STOP = 0x00
+    STOP = 0x20
 
 
     def __init__(self):
@@ -44,5 +43,8 @@ class MissileApi(object):
 
     def fire(self):
         self.send_cmd(self.FIRE)
-        time.sleep(1)
+        time.sleep(5)
+        self.send_move(self.DOWN,1000)
+        self.send_move(self.UP,1000)
         self.send_cmd(self.STOP)
+
