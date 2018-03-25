@@ -165,17 +165,18 @@ def playDeathMarch():
     #time.sleep(MEASURE_TIME*1.76)
 
 def clean():
+    initialize()
     s.write(ints2str([139, 4, 0, 100]))
     s.write(ints2str([135]))
 
-def targetDetected(x):
+def targetDetected():
     #stops cleaning
     s.write(ints2str([144, 0, 0, 0]))
     #stops moving
     s.write(ints2str([146, 0, 0, 0, 0]))
     #angry leds
     s.write(ints2str([139, 4, 255, 255]))
-    playDeathMarch()
+    #playDeathMarch()
 
 #radius -1 cw spin, 1 ccw spin,  32767 straight
 #velocity (-500 , 500 mm/s)

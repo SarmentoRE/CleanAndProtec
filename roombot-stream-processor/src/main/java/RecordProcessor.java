@@ -26,6 +26,7 @@ public class RecordProcessor implements IRecordProcessor {
     private static final long CHECKPOINT_INTERVAL_MILLIS = 60000L;
     private long nextCheckpointTimeInMillis;
 
+    private long lastFired;
     private final CharsetDecoder decoder = Charset.forName("UTF-8").newDecoder();
 
 
@@ -68,6 +69,7 @@ public class RecordProcessor implements IRecordProcessor {
     public void initialize(String s) {
         System.out.println("Initializing record processor");
         this.kinesisShardId = s;
+
 
     }
 
@@ -134,8 +136,21 @@ public class RecordProcessor implements IRecordProcessor {
                 Double right = (left + (Double.parseDouble(String.valueOf(boundingBox.get("Width"))) * 1080));
                 Double middle = ((left + right) / 2);
                 System.out.println("left:\t" + left + "\tright:\t" + right + "\tmiddle:\t" + middle);
-		Process p = Runtime.getRuntime().exec("sudo python /home/pi/CleanAndProtec/fire.py");
-        	Files.write(Paths.get("/home/pi/CleanAndProtec/middle.txt"), (middle+"").getBytes());
+                if (lastFired == 0) {
+			// First Firing
+                    	lastFired = System.currentTimeMillis();
+			Process p = Runtime.getRuntime().exec("sudo python /home/pi/CleanAndProtec/fire.py");
+        		Files.write(Paths.get("/home/pi/CleanAndProtec/middle.txt"), (middle+"").getBytes());
+                } else {
+                    	if ((System.currentTimeMillis() - lastFired) > 5000) {
+                    	    	System.out.println("lets fire again");
+                        	System.out.println("firing here");
+                        	lastFired = System.currentTimeMillis();
+			
+				Process p = Runtime.getRuntime().exec("sudo python /home/pi/CleanAndProtec/fire.py");
+        			Files.write(Paths.get("/home/pi/CleanAndProtec/middle.txt"), (middle+"").getBytes());
+                    }
+                }
             }
 
         } catch (NumberFormatException e) {

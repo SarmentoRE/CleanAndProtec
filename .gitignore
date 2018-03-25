@@ -1,3 +1,5 @@
 *.pyc
 roombot-stream-processor/target/
 *.class
+.*.swp
+middle.txt
